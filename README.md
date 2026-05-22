@@ -28,13 +28,17 @@ Pedagogicamente, o objeto tem três finalidades principais:
 - desenvolver a capacidade de classificar, relacionar e analisar elementos tecnológicos;
 - estimular autonomia, atenção, persistência e uso responsável da tecnologia.
 
-## Mapa conceitual
+## Mapas conceituais
 
-O mapa conceitual do objeto está disponível no Cmaps Cloud:
+O material agora está organizado em dois mapas separados.
 
-[modelo_conceitual_quiz_computacao](https://cmapscloud.ihmc.us:443/rid=22KK8ZC7D-181LQPG-F7FYXY)
+O primeiro mapa apresenta o conceito principal **Computação**, com hierarquia entre conceitos e relações explícitas entre Mundo Digital, Cultura Digital, hardware, software, dispositivos do cotidiano, internet, roteadores, servidores, nuvem, dados e práticas digitais. O foco está no uso concreto da tecnologia no dia a dia, como celular, desktop, televisão, impressora, touchscreen, navegador e redes sociais.
 
-Conteúdo verificado: o mapa apresenta o "Quiz de Computação" conectado a finalidades, conteúdos, aprendizagem, requisitos técnicos, alinhamento com a BNCC e desenvolvimento. Entre os conceitos destacados estão hardware, software, redes, armazenamento, segurança, fases progressivas, questões por requisito, feedback imediato, relatório final e interface responsiva.
+[Mapa conceitual principal no Cmaps Cloud](https://cmapscloud.ihmc.us:443/rid=22NYXKX26-1QQ9567-MRC72V)
+
+O segundo mapa trata apenas dos aspectos avaliativos do **Quiz de Computação**. Ele é independente do mapa principal, mas cita o mapa de Computação como referência para orientar conceitos avaliados, tipos de questão, fases, evidências, feedback e relatório do professor.
+
+[Mapa conceitual do quiz no Cmaps Cloud](https://cmapscloud.ihmc.us:443/rid=22NYXMXMV-P0Q7VY-MRC9K9)
 
 ## Modelo instrucional
 
