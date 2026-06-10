@@ -128,7 +128,8 @@ O segundo mapa trata apenas dos aspectos avaliativos do **Quiz de Computação**
 
 ## Modelo instrucional
 
-O modelo instrucional ainda não será disponibilizado neste ciclo/iteração. A proposta atual concentra-se na definição do objeto, do público-alvo, dos requisitos de aprendizagem, dos requisitos técnicos e do vínculo com o mapa conceitual.
+<img width="1224" height="1600" alt="image" src="https://github.com/user-attachments/assets/83cc3114-8837-49cb-8ad9-907922812662" />
+
 
 ## Desenvolvimento previsto
 
