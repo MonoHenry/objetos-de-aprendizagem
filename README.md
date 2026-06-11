@@ -120,7 +120,7 @@ O primeiro mapa tem **Computação** como conceito raiz, e todos os relacionamen
 
 O foco permanece no uso concreto da tecnologia no dia a dia, como celular, computador, televisão, teclado, touchscreen, navegador, internet e nuvem.
 
-[Mapa conceitual principal no Cmaps Cloud](https://cmapscloud.ihmc.us:443/rid=22NYXKX26-1QQ9567-MRC72V)
+[Mapa conceitual principal no Cmaps Cloud](https://cmapscloud.ihmc.us/viewer/cmap/22QX0PKVD-M6R5HJ-1W557D)
 
 O segundo mapa trata apenas dos aspectos avaliativos do **Quiz de Computação**. Ele é independente do mapa principal, mas cita o mapa de Computação como referência para orientar conceitos avaliados, tipos de questão, fases, evidências, feedback e relatório do professor.
 
