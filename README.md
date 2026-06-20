@@ -128,7 +128,7 @@ O segundo mapa trata apenas dos aspectos avaliativos do **Quiz de Computação**
 
 ## Modelo instrucional
 
-<img width="1224" height="1600" alt="image" src="https://github.com/user-attachments/assets/83cc3114-8837-49cb-8ad9-907922812662" />
+<img width="2683" height="1685" alt="modelo-instrucional" src="https://github.com/user-attachments/assets/eecb410c-16f6-4668-9973-92280a4f7197" />
 
 
 ## Desenvolvimento previsto
