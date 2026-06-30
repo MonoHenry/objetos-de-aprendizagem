@@ -4,6 +4,21 @@ Este repositório documenta a proposta de um objeto de aprendizagem digital para
 
 O objeto busca favorecer uma aprendizagem inicial, acessível e motivadora, permitindo que o estudante reconheça elementos da área, compreenda suas funções básicas e tome decisões adequadas em situações simples de uso da tecnologia.
 
+## Acesso ao objeto de aprendizagem
+
+O objeto está implementado como um site web estático (HTML, CSS e JavaScript, sem dependências externas), responsivo para computador, tablet e celular.
+
+- **Acesso online:** https://monohenry.github.io/objetos-de-aprendizagem/
+- **Execução local:** clone o repositório e abra o arquivo `index.html` no navegador. Para evitar restrições do navegador a arquivos locais, é possível servir a pasta com um servidor simples, por exemplo `python3 -m http.server`, e acessar `http://localhost:8000`.
+
+### Estrutura do repositório
+
+- `index.html` — página principal do quiz;
+- `css/styles.css` — estilos e layout responsivo;
+- `js/data.js` — banco de questões, requisitos, fases e componentes;
+- `js/app.js` — lógica do quiz (fases, feedback, autoavaliação e relatório);
+- `modelo-instrucional(1).drawio` — modelo instrucional (statechart) que orienta a implementação.
+
 ## Público-alvo
 
 O público-alvo principal são estudantes do Ensino Fundamental em etapa introdutória de Computação, especialmente em atividades mediadas por professor nos anos iniciais ou em turmas que estejam começando a estudar Mundo Digital e Cultura Digital.
