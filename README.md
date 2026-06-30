@@ -156,6 +156,42 @@ Na segunda etapa, será estruturada a navegação do quiz, com organização em 
 
 Na terceira etapa, será implementado o sistema de feedback e relatório. Ao final da atividade, o professor poderá visualizar em quais requisitos o estudante apresentou melhor desempenho e em quais ainda necessita de reforço. Dessa maneira, o objeto de aprendizagem não funcionará apenas como instrumento de acerto e erro, mas também como recurso diagnóstico e formativo.
 
+## Critérios de avaliação e pontuação
+
+A avaliação do estudante é organizada em três níveis — pontuação por questão, desempenho por fase e situação por requisito —, de modo que o professor possa acompanhar tanto o resultado geral quanto o domínio específico de cada requisito de aprendizagem.
+
+### Pontuação por questão
+
+Cada questão admite até duas tentativas, conforme o feedback previsto no modelo instrucional. A pontuação é ponderada pela tentativa em que o estudante acerta:
+
+| Resultado | Pontuação |
+| --- | --- |
+| Acerto na primeira tentativa | 1,0 |
+| Acerto na segunda tentativa (após a dica) | 0,5 |
+| Erro nas duas tentativas | 0,0 |
+
+### Desempenho por fase
+
+O desempenho de cada fase corresponde à média das pontuações das questões daquela fase, expressa em porcentagem. Por exemplo, em uma fase com seis questões na qual o estudante acerta cinco na primeira tentativa (5 × 1,0) e uma na segunda (0,5), o desempenho é de (5,5 ÷ 6) ≈ 92%.
+
+### Critério de avanço entre fases
+
+O avanço entre fases depende de um critério mínimo de desempenho, definido em 70% por padrão e ajustável pelo professor na tela inicial. Quando o desempenho na fase é igual ou superior ao critério, o estudante avança; quando é inferior, o objeto oferece a opção de refazer a fase ou de continuar mesmo assim.
+
+### Situação por requisito
+
+No relatório final, cada requisito de aprendizagem (R1 a R4) recebe uma situação de domínio, calculada a partir do desempenho da fase correspondente:
+
+| Faixa de desempenho | Situação |
+| --- | --- |
+| Igual ou superior ao critério | Dominado |
+| Igual ou superior a 50% e abaixo do critério | Em desenvolvimento |
+| Inferior a 50% | Precisa reforço |
+
+### Observação sobre o Requisito 5
+
+O Requisito 5 (autonomia, persistência e responsabilidade) não recebe pontuação numérica. Ele é avaliado de forma qualitativa, por meio de evidências registradas no relatório, como o tempo de permanência na atividade, a conclusão das fases, a autoavaliação respondida pelo estudante e a visualização da mensagem sobre uso seguro e responsável.
+
 ## Conclusão
 
 O objeto de aprendizagem proposto apresenta potencial para introduzir conceitos fundamentais da Computação de forma interativa, progressiva e pedagogicamente orientada. A definição dos requisitos de aprendizagem contempla conceitos, habilidades e disposições, além de estabelecer formas objetivas de avaliação para cada requisito.
