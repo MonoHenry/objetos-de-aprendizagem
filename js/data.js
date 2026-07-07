@@ -21,7 +21,7 @@ const FASES = [
     id: 1, req: 'R1', titulo: 'Reconhecer', icone: '🔍',
     objetivo: 'Identificar hardware e software no dia a dia.',
     tipoQuestao: 'Identificação',
-    explicacao: 'Nesta fase você vai ver um item de cada vez e dizer se ele é HARDWARE (parte física, que dá para tocar) ou SOFTWARE (programa, que funciona dentro do aparelho).',
+    explicacao: 'Nesta fase você vai ver um item de cada vez e dizer se ele é HARDWARE (parte física, que dá para tocar) ou SOFTWARE (parte não física, que você não consegue tocar: funciona dentro do aparelho).',
     exemplo: 'A impressora é hardware, porque é uma peça física. Um joguinho de celular é software, porque é um programa.',
   },
   {
@@ -61,8 +61,8 @@ const QUESTOES = [
     id: 'f1q2', fase: 1, req: 'R1', tipo: 'identificacao', icone: '🌐',
     enunciado: 'O navegador (como o Chrome) é hardware ou software?',
     opcoes: ['Hardware', 'Software'], correta: 1,
-    dica: 'Software é um programa: você não consegue segurá-lo na mão.',
-    comentario: 'O navegador é SOFTWARE: é um programa usado para acessar a internet.',
+    dica: 'O navegador abre os sites, mas não é uma peça física: você não consegue tocá-lo com a mão, ele funciona dentro do computador.',
+    comentario: 'O navegador é SOFTWARE: não é uma parte física que dá para tocar — ele funciona dentro do computador para acessar a internet.',
   },
   {
     id: 'f1q3', fase: 1, req: 'R1', tipo: 'identificacao', icone: '🖥️',
@@ -75,8 +75,8 @@ const QUESTOES = [
     id: 'f1q4', fase: 1, req: 'R1', tipo: 'identificacao', icone: '🛡️',
     enunciado: 'O antivírus é hardware ou software?',
     opcoes: ['Hardware', 'Software'], correta: 1,
-    dica: 'É um programa que protege o computador.',
-    comentario: 'O antivírus é SOFTWARE: é um programa que protege o computador contra vírus.',
+    dica: 'O antivírus protege o computador contra vírus, mas não é algo físico: você não consegue pegá-lo na mão, ele funciona dentro do aparelho.',
+    comentario: 'O antivírus é SOFTWARE: não é uma peça física que dá para segurar — ele funciona dentro do computador, protegendo contra vírus.',
   },
   {
     id: 'f1q5', fase: 1, req: 'R1', tipo: 'identificacao', icone: '🖱️',
@@ -89,8 +89,8 @@ const QUESTOES = [
     id: 'f1q6', fase: 1, req: 'R1', tipo: 'identificacao', icone: '📱',
     enunciado: 'Um aplicativo de mensagens é hardware ou software?',
     opcoes: ['Hardware', 'Software'], correta: 1,
-    dica: 'Aplicativo é um tipo de programa.',
-    comentario: 'Um aplicativo é SOFTWARE: é um programa instalado no celular ou computador.',
+    dica: 'O aplicativo envia as mensagens, mas não é uma parte física: você toca a TELA do celular, e o aplicativo funciona dentro do aparelho.',
+    comentario: 'Um aplicativo é SOFTWARE: não é uma peça física do celular — ele funciona dentro do aparelho para enviar as mensagens.',
   },
 
   // ---------- FASE 2 — Classificar (R2): categoria funcional ----------
