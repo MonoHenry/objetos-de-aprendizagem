@@ -674,14 +674,23 @@
   }
 
   // ---- Explorar componentes (consulta livre; não pontua) ---------------
+
+  // Figura do componente: usa o SVG desenhado quando não existe emoji fiel
+  // ao item (pen drive, roteador e HD).
+  function iconeComponente(c) {
+    if (c.svg) return el('div', { class: 'componente-icone', html: c.svg });
+    return el('div', { class: 'componente-icone' }, [c.icone]);
+  }
+
   function abrirExplorar() {
     var fundo = el('div', { class: 'modal-fundo', onclick: function (e) { if (e.target === fundo) fecharExplorar(); } });
     var grade = el('div', { class: 'grade-componentes' }, COMPONENTES.map(function (c) {
       return el('div', { class: 'componente' }, [
-        el('div', { class: 'componente-icone' }, [c.icone]),
+        iconeComponente(c),
         el('div', { class: 'componente-nome' }, [c.nome]),
         el('div', { class: 'componente-tipo' }, [c.tipo]),
         el('div', { class: 'componente-funcao' }, [c.funcao]),
+        el('a', { class: 'componente-link', href: c.wiki, target: '_blank', rel: 'noopener' }, ['🔗 Ver na Wikipédia']),
       ]);
     }));
     var modal = el('div', { class: 'modal' }, [

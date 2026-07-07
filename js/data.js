@@ -212,18 +212,38 @@ const QUESTOES = [
   },
 ];
 
+// Figuras desenhadas (SVG) para os componentes que não têm emoji fiel:
+// o emoji de disquete não é um pen drive, o de barras de sinal não é um
+// roteador e o de minidisc não é um HD.
+const SVG_PENDRIVE = '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="15" width="27" height="18" rx="5"/><rect x="30" y="19" width="14" height="10"/><line x1="34" y1="21.8" x2="39" y2="21.8"/><line x1="34" y1="26.2" x2="39" y2="26.2"/></svg>';
+const SVG_ROTEADOR = '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="27" width="40" height="14" rx="4"/><line x1="14" y1="27" x2="14" y2="11"/><line x1="34" y1="27" x2="34" y2="11"/><circle cx="14" cy="9" r="1.8" fill="currentColor" stroke="none"/><circle cx="34" cy="9" r="1.8" fill="currentColor" stroke="none"/><circle cx="12" cy="34" r="1.7" fill="currentColor" stroke="none"/><circle cx="19" cy="34" r="1.7" fill="currentColor" stroke="none"/><circle cx="26" cy="34" r="1.7" fill="currentColor" stroke="none"/></svg>';
+const SVG_HD = '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="5" width="32" height="38" rx="4"/><circle cx="24" cy="19" r="8.5"/><circle cx="24" cy="19" r="1.6" fill="currentColor" stroke="none"/><line x1="24" y1="19" x2="30" y2="13.5"/><line x1="14" y1="37" x2="22" y2="37"/></svg>';
+
 // Componentes disponíveis em "Explorar componentes" (consulta livre, não pontua).
+// "wiki" aponta para o artigo do item na Wikipédia em português.
 const COMPONENTES = [
-  { nome: 'Processador', icone: '🧠', tipo: 'Hardware', funcao: 'Processa as informações; é o "cérebro" do computador.' },
-  { nome: 'Teclado', icone: '⌨️', tipo: 'Hardware · entrada', funcao: 'Permite digitar letras, números e comandos.' },
-  { nome: 'Mouse', icone: '🖱️', tipo: 'Hardware · entrada', funcao: 'Move o cursor e seleciona itens com cliques.' },
-  { nome: 'Monitor', icone: '🖥️', tipo: 'Hardware · saída', funcao: 'Mostra as imagens e os textos na tela.' },
-  { nome: 'Caixa de som', icone: '🔊', tipo: 'Hardware · saída', funcao: 'Reproduz o som para você ouvir.' },
-  { nome: 'Pen drive', icone: '💾', tipo: 'Hardware · armazenamento', funcao: 'Guarda e transporta arquivos.' },
-  { nome: 'HD', icone: '💽', tipo: 'Hardware · armazenamento', funcao: 'Armazena os arquivos dentro do computador.' },
-  { nome: 'Roteador', icone: '📶', tipo: 'Hardware · rede', funcao: 'Conecta os dispositivos à internet.' },
-  { nome: 'Sistema operacional', icone: '⚙️', tipo: 'Software', funcao: 'Controla o hardware e organiza os programas.' },
-  { nome: 'Navegador', icone: '🌐', tipo: 'Software', funcao: 'Acessa a internet e abre os sites.' },
-  { nome: 'Aplicativo', icone: '📱', tipo: 'Software', funcao: 'Programa para uma tarefa específica (mensagens, jogos, etc.).' },
-  { nome: 'Antivírus', icone: '🛡️', tipo: 'Software', funcao: 'Protege o computador contra vírus e ameaças.' },
+  { nome: 'Processador', icone: '🧠', tipo: 'Hardware', funcao: 'Processa as informações; é o "cérebro" do computador.',
+    wiki: 'https://pt.wikipedia.org/wiki/Unidade_central_de_processamento' },
+  { nome: 'Teclado', icone: '⌨️', tipo: 'Hardware · entrada', funcao: 'Permite digitar letras, números e comandos.',
+    wiki: 'https://pt.wikipedia.org/wiki/Teclado_(inform%C3%A1tica)' },
+  { nome: 'Mouse', icone: '🖱️', tipo: 'Hardware · entrada', funcao: 'Move o cursor e seleciona itens com cliques.',
+    wiki: 'https://pt.wikipedia.org/wiki/Mouse' },
+  { nome: 'Monitor', icone: '🖥️', tipo: 'Hardware · saída', funcao: 'Mostra as imagens e os textos na tela.',
+    wiki: 'https://pt.wikipedia.org/wiki/Monitor_de_v%C3%ADdeo' },
+  { nome: 'Caixa de som', icone: '🔊', tipo: 'Hardware · saída', funcao: 'Reproduz o som para você ouvir.',
+    wiki: 'https://pt.wikipedia.org/wiki/Alto-falante' },
+  { nome: 'Pen drive', svg: SVG_PENDRIVE, tipo: 'Hardware · armazenamento', funcao: 'Guarda e transporta arquivos.',
+    wiki: 'https://pt.wikipedia.org/wiki/Pen_drive' },
+  { nome: 'HD', svg: SVG_HD, tipo: 'Hardware · armazenamento', funcao: 'Armazena os arquivos dentro do computador.',
+    wiki: 'https://pt.wikipedia.org/wiki/Disco_r%C3%ADgido' },
+  { nome: 'Roteador', svg: SVG_ROTEADOR, tipo: 'Hardware · rede', funcao: 'Conecta os dispositivos à internet.',
+    wiki: 'https://pt.wikipedia.org/wiki/Roteador' },
+  { nome: 'Sistema operacional', icone: '⚙️', tipo: 'Software', funcao: 'Controla o hardware e organiza os programas.',
+    wiki: 'https://pt.wikipedia.org/wiki/Sistema_operacional' },
+  { nome: 'Navegador', icone: '🌐', tipo: 'Software', funcao: 'Acessa a internet e abre os sites.',
+    wiki: 'https://pt.wikipedia.org/wiki/Navegador_web' },
+  { nome: 'Aplicativo', icone: '📱', tipo: 'Software', funcao: 'Programa para uma tarefa específica (mensagens, jogos, etc.).',
+    wiki: 'https://pt.wikipedia.org/wiki/Aplicativo_m%C3%B3vel' },
+  { nome: 'Antivírus', icone: '🛡️', tipo: 'Software', funcao: 'Protege o computador contra vírus e ameaças.',
+    wiki: 'https://pt.wikipedia.org/wiki/Antiv%C3%ADrus' },
 ];

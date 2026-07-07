@@ -174,10 +174,12 @@ h2 { font-size: 1.25rem; }
 .modal-dica { color: var(--cinza); font-size: 0.92rem; }
 .grade-componentes { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; margin-top: 12px; }
 .componente { border: 2px solid var(--azul-claro); border-radius: 12px; padding: 14px; text-align: center; }
-.componente-icone { font-size: 2rem; }
+.componente-icone { font-size: 2rem; line-height: 1; }
+.componente-icone svg { width: 40px; height: 40px; color: var(--azul); vertical-align: middle; }
 .componente-nome { font-weight: 700; margin-top: 4px; }
 .componente-tipo { font-size: 0.8rem; color: var(--azul); margin: 2px 0 6px; }
 .componente-funcao { font-size: 0.88rem; color: var(--cinza); }
+.componente-link { display: inline-block; margin-top: 8px; font-size: 0.85rem; color: var(--azul); font-weight: 600; }
 
 /* ---- Rodapé ---- */
 .rodape { text-align: center; color: var(--cinza); font-size: 0.82rem; margin-top: 28px; }
