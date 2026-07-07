@@ -312,6 +312,13 @@
     renderQuestao();
   }
 
+  // Figura da questão: usa o SVG desenhado quando não existe emoji fiel ao
+  // item (pen drive, roteador, HD e touchscreen).
+  function figuraQuestao(q) {
+    if (q.svg) return el('span', { class: 'questao-icone', html: q.svg });
+    return el('span', { class: 'questao-icone' }, [q.icone || '❓']);
+  }
+
   // Apresentação da questão
   function renderQuestao() {
     var fase = FASES[estado.faseIdx];
@@ -342,7 +349,7 @@
     var card = el('div', { class: 'card questao' }, [
       progressoFase,
       el('div', { class: 'questao-cabecalho' }, [
-        el('span', { class: 'questao-icone' }, [q.icone || '❓']),
+        figuraQuestao(q),
         el('span', { class: 'tag-req', title: REQUISITOS[q.req].nome }, [q.req]),
       ]),
       el('h2', { class: 'enunciado' }, [q.enunciado]),
@@ -393,7 +400,7 @@
         'Fase ' + fase.id + ' · ' + fase.titulo + ' — Questão ' + (pag.questaoIdx + 1) + ' de ' + questoes.length,
       ]),
       el('div', { class: 'questao-cabecalho' }, [
-        el('span', { class: 'questao-icone' }, [q.icone || '❓']),
+        figuraQuestao(q),
         el('span', { class: 'tag-req', title: REQUISITOS[q.req].nome }, [q.req]),
       ]),
       el('h2', { class: 'enunciado' }, [q.enunciado]),

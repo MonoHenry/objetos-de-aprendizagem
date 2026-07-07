@@ -109,7 +109,8 @@ h2 { font-size: 1.25rem; }
 .barra-prog { height: 10px; background: var(--cinza-claro); border-radius: 999px; margin-top: 6px; overflow: hidden; }
 .barra-prog-fill { height: 100%; background: linear-gradient(90deg, var(--azul), var(--verde)); border-radius: 999px; transition: width 0.3s ease; }
 .questao-cabecalho { display: flex; align-items: center; justify-content: space-between; margin: 6px 0; }
-.questao-icone { font-size: 2.6rem; }
+.questao-icone { font-size: 2.6rem; line-height: 1; }
+.questao-icone svg { width: 44px; height: 44px; color: var(--azul); vertical-align: middle; }
 .tag-req { background: var(--azul-claro); color: var(--azul-escuro); font-weight: 700; padding: 4px 10px; border-radius: 999px; font-size: 0.85rem; }
 .enunciado { margin: 8px 0 18px; }
 .opcoes { display: grid; gap: 12px; }

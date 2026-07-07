@@ -47,6 +47,15 @@ const FASES = [
   },
 ];
 
+// Figuras desenhadas (SVG) para os itens que não têm emoji fiel:
+// o emoji de disquete não é um pen drive, o de barras de sinal não é um
+// roteador, o de minidisc não é um HD e o de trackball não é um touchscreen.
+// Usadas tanto nas questões quanto no "Explorar componentes".
+const SVG_PENDRIVE = '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="15" width="27" height="18" rx="5"/><rect x="30" y="19" width="14" height="10"/><line x1="34" y1="21.8" x2="39" y2="21.8"/><line x1="34" y1="26.2" x2="39" y2="26.2"/></svg>';
+const SVG_ROTEADOR = '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="27" width="40" height="14" rx="4"/><line x1="14" y1="27" x2="14" y2="11"/><line x1="34" y1="27" x2="34" y2="11"/><circle cx="14" cy="9" r="1.8" fill="currentColor" stroke="none"/><circle cx="34" cy="9" r="1.8" fill="currentColor" stroke="none"/><circle cx="12" cy="34" r="1.7" fill="currentColor" stroke="none"/><circle cx="19" cy="34" r="1.7" fill="currentColor" stroke="none"/><circle cx="26" cy="34" r="1.7" fill="currentColor" stroke="none"/></svg>';
+const SVG_HD = '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="5" width="32" height="38" rx="4"/><circle cx="24" cy="19" r="8.5"/><circle cx="24" cy="19" r="1.6" fill="currentColor" stroke="none"/><line x1="24" y1="19" x2="30" y2="13.5"/><line x1="14" y1="37" x2="22" y2="37"/></svg>';
+const SVG_TOUCHSCREEN = '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="11" y="4" width="26" height="40" rx="5"/><line x1="21" y1="38" x2="27" y2="38"/><circle cx="24" cy="21" r="3.5" fill="currentColor" stroke="none"/><line x1="24" y1="11" x2="24" y2="14"/><line x1="15" y1="21" x2="18" y2="21"/><line x1="30" y1="21" x2="33" y2="21"/><line x1="17.5" y1="14.5" x2="19.5" y2="16.5"/><line x1="30.5" y1="14.5" x2="28.5" y2="16.5"/></svg>';
+
 // Banco de questões. Cada questão indica fase, requisito, tipo, dica e resposta comentada.
 const QUESTOES = [
   // ---------- FASE 1 — Reconhecer (R1): hardware ou software ----------
@@ -86,7 +95,7 @@ const QUESTOES = [
     comentario: 'O mouse é HARDWARE: é uma peça física usada para apontar e clicar.',
   },
   {
-    id: 'f1q6', fase: 1, req: 'R1', tipo: 'identificacao', icone: '📱',
+    id: 'f1q6', fase: 1, req: 'R1', tipo: 'identificacao', icone: '💬',
     enunciado: 'Um aplicativo de mensagens é hardware ou software?',
     opcoes: ['Hardware', 'Software'], correta: 1,
     dica: 'O aplicativo envia as mensagens, mas não é uma parte física: você toca a TELA do celular, e o aplicativo funciona dentro do aparelho.',
@@ -109,14 +118,14 @@ const QUESTOES = [
     comentario: 'A impressora é um DISPOSITIVO DE SAÍDA: entrega para fora o que o computador produziu.',
   },
   {
-    id: 'f2q3', fase: 2, req: 'R2', tipo: 'classificacao', icone: '💾',
+    id: 'f2q3', fase: 2, req: 'R2', tipo: 'classificacao', svg: SVG_PENDRIVE,
     enunciado: 'A qual categoria pertence o pen drive?',
     opcoes: ['Dispositivo de entrada', 'Rede', 'Armazenamento', 'Dispositivo de saída'], correta: 2,
     dica: 'Ele serve para guardar e levar seus arquivos.',
     comentario: 'O pen drive é ARMAZENAMENTO: guarda dados que você pode levar de um lugar a outro.',
   },
   {
-    id: 'f2q4', fase: 2, req: 'R2', tipo: 'classificacao', icone: '📶',
+    id: 'f2q4', fase: 2, req: 'R2', tipo: 'classificacao', svg: SVG_ROTEADOR,
     enunciado: 'A qual categoria pertence o roteador?',
     opcoes: ['Armazenamento', 'Rede', 'Dispositivo de saída', 'Dispositivo de entrada'], correta: 1,
     dica: 'Ele tem a ver com conectar dispositivos à internet.',
@@ -130,7 +139,7 @@ const QUESTOES = [
     comentario: 'A caixa de som é um DISPOSITIVO DE SAÍDA: leva o som do computador até você.',
   },
   {
-    id: 'f2q6', fase: 2, req: 'R2', tipo: 'classificacao', icone: '🖲️',
+    id: 'f2q6', fase: 2, req: 'R2', tipo: 'classificacao', svg: SVG_TOUCHSCREEN,
     enunciado: 'A qual categoria pertence o touchscreen (tela de toque)?',
     opcoes: ['Dispositivo de entrada', 'Rede', 'Armazenamento', 'Dispositivo de saída'], correta: 0,
     dica: 'Quando você toca a tela, está enviando um comando.',
@@ -146,7 +155,7 @@ const QUESTOES = [
     comentario: 'O processador PROCESSA as informações: é o "cérebro" que faz os cálculos do computador.',
   },
   {
-    id: 'f3q2', fase: 3, req: 'R3', tipo: 'associacao', icone: '💽',
+    id: 'f3q2', fase: 3, req: 'R3', tipo: 'associacao', svg: SVG_HD,
     enunciado: 'Para que serve o HD (disco rígido)?',
     opcoes: ['Digitar textos', 'Imprimir páginas', 'Armazenar dados', 'Tocar música'], correta: 2,
     dica: 'Pense onde ficam guardados seus arquivos no computador.',
@@ -211,13 +220,6 @@ const QUESTOES = [
     comentario: 'A caixa de som resolve: é o dispositivo de SAÍDA que leva o som até você.',
   },
 ];
-
-// Figuras desenhadas (SVG) para os componentes que não têm emoji fiel:
-// o emoji de disquete não é um pen drive, o de barras de sinal não é um
-// roteador e o de minidisc não é um HD.
-const SVG_PENDRIVE = '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="15" width="27" height="18" rx="5"/><rect x="30" y="19" width="14" height="10"/><line x1="34" y1="21.8" x2="39" y2="21.8"/><line x1="34" y1="26.2" x2="39" y2="26.2"/></svg>';
-const SVG_ROTEADOR = '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="27" width="40" height="14" rx="4"/><line x1="14" y1="27" x2="14" y2="11"/><line x1="34" y1="27" x2="34" y2="11"/><circle cx="14" cy="9" r="1.8" fill="currentColor" stroke="none"/><circle cx="34" cy="9" r="1.8" fill="currentColor" stroke="none"/><circle cx="12" cy="34" r="1.7" fill="currentColor" stroke="none"/><circle cx="19" cy="34" r="1.7" fill="currentColor" stroke="none"/><circle cx="26" cy="34" r="1.7" fill="currentColor" stroke="none"/></svg>';
-const SVG_HD = '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="5" width="32" height="38" rx="4"/><circle cx="24" cy="19" r="8.5"/><circle cx="24" cy="19" r="1.6" fill="currentColor" stroke="none"/><line x1="24" y1="19" x2="30" y2="13.5"/><line x1="14" y1="37" x2="22" y2="37"/></svg>';
 
 // Componentes disponíveis em "Explorar componentes" (consulta livre, não pontua).
 // "detalhe" é a explicação completa mostrada ao selecionar o componente
