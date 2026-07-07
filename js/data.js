@@ -14,11 +14,37 @@ const REQUISITOS = {
 };
 
 // As quatro fases progressivas do quiz (uma por requisito cognitivo R1–R4).
+// Cada fase traz o tipo de questão (conforme o mapa conceitual do quiz) e a
+// explicação exibida na tela de introdução da fase.
 const FASES = [
-  { id: 1, req: 'R1', titulo: 'Reconhecer', icone: '🔍', objetivo: 'Identificar hardware e software no dia a dia.' },
-  { id: 2, req: 'R2', titulo: 'Classificar', icone: '🗂️', objetivo: 'Organizar elementos em categorias funcionais.' },
-  { id: 3, req: 'R3', titulo: 'Relacionar', icone: '🔗', objetivo: 'Ligar cada componente à sua função.' },
-  { id: 4, req: 'R4', titulo: 'Analisar', icone: '🧩', objetivo: 'Escolher a melhor solução em situações do cotidiano.' },
+  {
+    id: 1, req: 'R1', titulo: 'Reconhecer', icone: '🔍',
+    objetivo: 'Identificar hardware e software no dia a dia.',
+    tipoQuestao: 'Identificação',
+    explicacao: 'Nesta fase você vai ver um item de cada vez e dizer se ele é HARDWARE (parte física, que dá para tocar) ou SOFTWARE (programa, que funciona dentro do aparelho).',
+    exemplo: 'A impressora é hardware, porque é uma peça física. Um joguinho de celular é software, porque é um programa.',
+  },
+  {
+    id: 2, req: 'R2', titulo: 'Classificar', icone: '🗂️',
+    objetivo: 'Organizar elementos em categorias funcionais.',
+    tipoQuestao: 'Classificação',
+    explicacao: 'Agora será classificação! Você vai colocar cada item na categoria certa: dispositivo de entrada, dispositivo de saída, armazenamento ou rede.',
+    exemplo: 'A webcam envia imagens PARA o computador, então ela é um dispositivo de entrada.',
+  },
+  {
+    id: 3, req: 'R3', titulo: 'Relacionar', icone: '🔗',
+    objetivo: 'Ligar cada componente à sua função.',
+    tipoQuestao: 'Associação',
+    explicacao: 'Agora será associação! Você vai ligar cada componente à função que ele realiza no computador.',
+    exemplo: 'A memória serve para guardar informações enquanto o computador trabalha.',
+  },
+  {
+    id: 4, req: 'R4', titulo: 'Analisar', icone: '🧩',
+    objetivo: 'Escolher a melhor solução em situações do cotidiano.',
+    tipoQuestao: 'Situação-problema',
+    explicacao: 'Agora serão situações do dia a dia! Você vai ler uma pequena história e escolher a atitude ou a ferramenta mais adequada para resolver cada uma.',
+    exemplo: 'Para assistir a uma aula on-line, você precisa de um aparelho conectado à internet.',
+  },
 ];
 
 // Banco de questões. Cada questão indica fase, requisito, tipo, dica e resposta comentada.

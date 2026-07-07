@@ -1,8 +1,9 @@
 /*
  * app.js — Lógica do Quiz de Computação.
  * Implementa o modelo instrucional (statechart): abertura, 4 fases com
- * feedback em até 2 tentativas, "explorar componentes", encerramento com
- * autoavaliação, mensagem de uso seguro e relatório do professor.
+ * introdução explicativa, feedback em até 2 tentativas, "explorar
+ * componentes", modo revisão (voltar às páginas anteriores), encerramento
+ * com autoavaliação, mensagem de uso seguro e relatório do professor.
  * Vanilla JS, sem dependências — funciona offline e no GitHub Pages.
  */
 (function () {
@@ -14,13 +15,19 @@
   // ---- Estado ----------------------------------------------------------
   var estado = null;
 
+  // Posição do modo revisão (não persistida): null = tela ao vivo;
+  // número = índice em paginasAnteriores().
+  var revisaoPos = null;
+
   function estadoInicial() {
     return {
       criterio: 70,            // % mínimo para considerar a fase dominada
       faseIdx: 0,              // índice em FASES
+      subtela: 'intro',        // posição dentro da fase: 'intro' | 'questao' | 'resumo'
       questaoIdx: 0,           // índice da questão dentro da fase
       tentativas: 0,           // tentativas na questão atual (0, 1 ou 2)
-      registros: {},           // qid -> { fase, req, primeiraCorreta, acertou, tentativas }
+      escolhasAtual: [],       // alternativas já escolhidas na questão atual
+      registros: {},           // qid -> { fase, req, primeiraCorreta, acertou, tentativas, escolhas }
       iniciadoEm: Date.now(),
       tempoMs: 0,              // tempo acumulado (atualizado ao salvar)
       autoavaliacao: null,     // respostas da autoavaliação
@@ -43,7 +50,13 @@
     try {
       var raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return null;
-      return JSON.parse(raw);
+      var e = JSON.parse(raw);
+      // Migração de estados salvos por versões anteriores (iterações 1 e 2).
+      if (e && typeof e === 'object') {
+        if (!e.subtela) e.subtela = 'questao';
+        if (!e.escolhasAtual) e.escolhasAtual = [];
+      }
+      return e;
     } catch (e) { return null; }
   }
 
@@ -78,6 +91,81 @@
     return m + 'min ' + (s % 60) + 's';
   }
 
+  // ---- Roteador da tela "ao vivo" ---------------------------------------
+  // Decide qual tela mostrar a partir do estado salvo. Também é o que
+  // permite retomar corretamente de qualquer ponto (inclusive após a fase 4).
+  function renderLive() {
+    revisaoPos = null;
+    if (!estado) { telaAbertura(false); return; }
+    if (estado.concluido) { telaRelatorio(); return; }
+    if (estado.faseIdx >= FASES.length) {
+      if (estado.autoavaliacao) telaSeguranca();
+      else telaAutoavaliacao();
+      return;
+    }
+    if (estado.subtela === 'intro') renderIntroFase(estado.faseIdx, false);
+    else if (estado.subtela === 'resumo') telaResumoFase();
+    else renderQuestao();
+  }
+
+  // ---- Navegação "Voltar" (modo revisão) --------------------------------
+  // Lista todas as páginas anteriores à tela ao vivo: a introdução de cada
+  // fase e as questões já respondidas. Rever não altera a pontuação.
+  function paginasAnteriores() {
+    var pags = [];
+    if (!estado) return pags;
+    var faseLimite = Math.min(estado.faseIdx, FASES.length - 1);
+    for (var f = 0; f <= faseLimite; f++) {
+      var ehAtual = f === estado.faseIdx;
+      if (ehAtual && estado.subtela === 'intro') break; // a intro atual é a tela ao vivo
+      pags.push({ tipo: 'intro', faseIdx: f });
+      var qs = questoesDaFase(FASES[f].id);
+      var limite = (ehAtual && estado.subtela === 'questao') ? estado.questaoIdx : qs.length;
+      for (var i = 0; i < limite; i++) pags.push({ tipo: 'questao', faseIdx: f, questaoIdx: i });
+    }
+    return pags;
+  }
+
+  function entrarRevisao() {
+    var pags = paginasAnteriores();
+    if (!pags.length) return;
+    revisaoPos = pags.length - 1;
+    renderRevisao();
+  }
+
+  function renderRevisao() {
+    var pags = paginasAnteriores();
+    if (revisaoPos == null || revisaoPos < 0 || revisaoPos >= pags.length) { renderLive(); return; }
+    var pag = pags[revisaoPos];
+    if (pag.tipo === 'intro') renderIntroFase(pag.faseIdx, true);
+    else renderQuestaoRevisao(pag);
+  }
+
+  function revisaoAnterior() {
+    if (revisaoPos > 0) { revisaoPos -= 1; renderRevisao(); }
+  }
+
+  function revisaoProxima() {
+    var pags = paginasAnteriores();
+    revisaoPos += 1;
+    if (revisaoPos >= pags.length) renderLive();
+    else renderRevisao();
+  }
+
+  function bannerRevisao() {
+    return el('div', { class: 'banner-revisao', role: 'status' }, [
+      '👀 Modo revisão — você está revendo páginas anteriores. Nada aqui muda a sua pontuação.',
+    ]);
+  }
+
+  function navRevisao() {
+    return el('div', { class: 'botoes-centro' }, [
+      revisaoPos > 0 ? el('button', { class: 'btn btn-ghost', onclick: revisaoAnterior }, ['⬅️ Anterior']) : null,
+      el('button', { class: 'btn btn-ghost', onclick: revisaoProxima }, ['Próxima ➡️']),
+      el('button', { class: 'btn btn-primario', onclick: renderLive }, ['▶️ Continuar o quiz']),
+    ]);
+  }
+
   // ---- Barra superior (progresso + ações) ------------------------------
   function barraProgresso() {
     var fase = FASES[estado.faseIdx];
@@ -88,7 +176,9 @@
         el('span', { class: 'passo-nome' }, [f.titulo]),
       ]);
     }));
+    var temAnteriores = paginasAnteriores().length > 0;
     var acoes = el('div', { class: 'acoes' }, [
+      temAnteriores ? el('button', { class: 'btn btn-ghost', onclick: entrarRevisao }, ['⬅️ Voltar']) : null,
       el('button', { class: 'btn btn-ghost', onclick: abrirExplorar }, ['🧭 Explorar componentes']),
       el('button', { class: 'btn btn-ghost', onclick: pausar }, ['⏸️ Pausar']),
     ]);
@@ -125,7 +215,7 @@
       ]),
       el('div', { class: 'botoes-centro' }, [
         retomavel ? el('button', { class: 'btn btn-secundario', onclick: retomar }, ['↩️ Retomar de onde parei']) : null,
-        el('button', { class: 'btn btn-primario', onclick: function () { iniciar(false); } }, ['▶️ Começar']),
+        el('button', { class: 'btn btn-primario', onclick: function () { iniciar(false); } }, [retomavel ? '🔄 Começar do zero' : '▶️ Começar']),
       ]),
     ]);
     app.appendChild(card);
@@ -143,7 +233,7 @@
     estado._tempoBase = estado.tempoMs || 0;
     estado.iniciadoEm = Date.now();
     salvar();
-    renderQuestao();
+    renderLive();
   }
 
   function retomar() { estado = carregar() || estadoInicial(); iniciar(true); }
@@ -162,6 +252,49 @@
     app.appendChild(card);
   }
 
+  // Introdução da fase: explica o tipo de questão antes de começar
+  // ("Agora será classificação..."), com exemplo e lembrete das 2 tentativas.
+  function renderIntroFase(faseIdx, emRevisao) {
+    var fase = FASES[faseIdx];
+    var questoes = questoesDaFase(fase.id);
+    if (!emRevisao) salvar();
+
+    limparTela();
+    if (emRevisao) app.appendChild(bannerRevisao());
+    else app.appendChild(barraProgresso());
+
+    var card = el('div', { class: 'card intro-fase' }, [
+      el('div', { class: 'emoji-grande' }, [fase.icone]),
+      el('h1', { class: 'centro' }, ['Fase ' + fase.id + ' — ' + fase.titulo]),
+      el('div', { class: 'centro' }, [
+        el('span', { class: 'tipo-badge' }, ['Tipo de questão: ' + fase.tipoQuestao]),
+      ]),
+      el('p', { class: 'intro-explicacao' }, [fase.explicacao]),
+      el('div', { class: 'exemplo-box' }, [
+        el('strong', null, ['✨ Exemplo: ']),
+        fase.exemplo,
+      ]),
+      el('div', { class: 'lembrete-box' }, [
+        el('strong', null, ['💡 Lembrete: ']),
+        'você tem 2 chances em cada questão. Se errar a primeira, aparece uma dica para você tentar de novo!',
+      ]),
+      el('p', { class: 'intro-qtd centro' }, ['Esta fase tem ' + questoes.length + ' questões. Boa sorte! 🍀']),
+      emRevisao ? navRevisao() : el('div', { class: 'botoes-centro' }, [
+        el('button', { class: 'btn btn-primario btn-grande', onclick: comecarFase }, ['▶️ Começar a fase']),
+      ]),
+    ]);
+    app.appendChild(card);
+  }
+
+  function comecarFase() {
+    estado.subtela = 'questao';
+    estado.questaoIdx = 0;
+    estado.tentativas = 0;
+    estado.escolhasAtual = [];
+    salvar();
+    renderQuestao();
+  }
+
   // Apresentação da questão
   function renderQuestao() {
     var fase = FASES[estado.faseIdx];
@@ -172,8 +305,12 @@
     limparTela();
     app.appendChild(barraProgresso());
 
+    var pctBarra = Math.round((estado.questaoIdx / questoes.length) * 100);
     var progressoFase = el('div', { class: 'progresso-fase' }, [
-      'Questão ' + (estado.questaoIdx + 1) + ' de ' + questoes.length,
+      el('div', null, ['Questão ' + (estado.questaoIdx + 1) + ' de ' + questoes.length]),
+      el('div', { class: 'barra-prog', role: 'progressbar', 'aria-valuemin': '0', 'aria-valuemax': '100', 'aria-valuenow': String(pctBarra) }, [
+        el('div', { class: 'barra-prog-fill', style: 'width:' + pctBarra + '%' }),
+      ]),
     ]);
 
     var opcoes = el('div', { class: 'opcoes' }, q.opcoes.map(function (texto, i) {
@@ -183,7 +320,7 @@
       }, [texto]);
     }));
 
-    var feedback = el('div', { class: 'feedback', id: 'feedback' }, []);
+    var feedback = el('div', { class: 'feedback', id: 'feedback', role: 'status', 'aria-live': 'polite' }, []);
 
     var card = el('div', { class: 'card questao' }, [
       progressoFase,
@@ -194,6 +331,61 @@
       el('h2', { class: 'enunciado' }, [q.enunciado]),
       opcoes,
       feedback,
+    ]);
+    app.appendChild(card);
+
+    // Reconstrói o meio da questão (após recarregar a página ou voltar da
+    // revisão com uma tentativa errada já feita).
+    if (estado.escolhasAtual && estado.escolhasAtual.length) {
+      var botoes = card.querySelectorAll('.opcao');
+      estado.escolhasAtual.forEach(function (i) {
+        if (botoes[i]) { botoes[i].classList.add('errada'); botoes[i].disabled = true; }
+      });
+      if (estado.tentativas === 1) {
+        mostrarFeedback(feedback, 'dica', '🤔 Quase! Tente de novo.', '💡 Dica: ' + q.dica, false);
+      }
+    }
+  }
+
+  // Revisão de uma questão já respondida: mostra a resposta correta, as
+  // escolhas do estudante e o comentário — sem alterar a pontuação.
+  function renderQuestaoRevisao(pag) {
+    var fase = FASES[pag.faseIdx];
+    var questoes = questoesDaFase(fase.id);
+    var q = questoes[pag.questaoIdx];
+    var reg = estado.registros[q.id];
+
+    limparTela();
+    app.appendChild(bannerRevisao());
+
+    var opcoes = el('div', { class: 'opcoes' }, q.opcoes.map(function (texto, i) {
+      var cls = 'opcao';
+      if (i === q.correta) cls += ' certa';
+      else if (reg && reg.escolhas && reg.escolhas.indexOf(i) !== -1) cls += ' errada';
+      return el('button', { class: cls, disabled: 'disabled' }, [texto]);
+    }));
+
+    var resultadoTxt;
+    if (!reg) resultadoTxt = 'Questão ainda sem resposta registrada.';
+    else if (reg.primeiraCorreta) resultadoTxt = '✅ Você acertou na 1ª tentativa (1,0 ponto).';
+    else if (reg.acertou) resultadoTxt = '✅ Você acertou na 2ª tentativa (0,5 ponto).';
+    else resultadoTxt = '📘 Você não acertou desta vez (0,0 ponto). Releia o comentário para aprender!';
+
+    var card = el('div', { class: 'card questao' }, [
+      el('div', { class: 'progresso-fase' }, [
+        'Fase ' + fase.id + ' · ' + fase.titulo + ' — Questão ' + (pag.questaoIdx + 1) + ' de ' + questoes.length,
+      ]),
+      el('div', { class: 'questao-cabecalho' }, [
+        el('span', { class: 'questao-icone' }, [q.icone || '❓']),
+        el('span', { class: 'tag-req', title: REQUISITOS[q.req].nome }, [q.req]),
+      ]),
+      el('h2', { class: 'enunciado' }, [q.enunciado]),
+      opcoes,
+      el('div', { class: 'resultado-revisao' }, [
+        el('div', { class: 'feedback-titulo' }, [resultadoTxt]),
+        el('div', { class: 'feedback-texto' }, [q.comentario]),
+      ]),
+      navRevisao(),
     ]);
     app.appendChild(card);
   }
@@ -209,6 +401,7 @@
 
     var acertou = escolha === q.correta;
     estado.tentativas += 1;
+    if (!acertou) estado.escolhasAtual.push(escolha);
 
     if (acertou) {
       botao.classList.add('certa');
@@ -241,7 +434,9 @@
     container.appendChild(el('div', { class: 'feedback-titulo' }, [titulo]));
     container.appendChild(el('div', { class: 'feedback-texto' }, [texto]));
     if (podeAvancar) {
-      container.appendChild(el('button', { class: 'btn btn-primario', onclick: avancarQuestao }, ['Continuar ➜']));
+      var btn = el('button', { class: 'btn btn-primario', onclick: avancarQuestao }, ['Continuar ➜']);
+      container.appendChild(btn);
+      btn.focus();
     }
   }
 
@@ -252,6 +447,7 @@
       primeiraCorreta: primeiraCorreta && estado.tentativas === 1,
       acertou: primeiraCorreta,
       tentativas: estado.tentativas,
+      escolhas: (estado.escolhasAtual || []).slice(),
     };
   }
 
@@ -259,10 +455,11 @@
     var fase = FASES[estado.faseIdx];
     var questoes = questoesDaFase(fase.id);
     estado.tentativas = 0;
+    estado.escolhasAtual = [];
     estado.questaoIdx += 1;
     if (estado.questaoIdx >= questoes.length) {
-      estado.questaoIdx = 0;
-      telaResumoFase(fase);
+      estado.subtela = 'resumo';
+      telaResumoFase();
     } else {
       renderQuestao();
     }
@@ -284,7 +481,8 @@
   }
 
   // Resumo da fase + verificação do critério (concluída [desempenho >= critério*])
-  function telaResumoFase(fase) {
+  function telaResumoFase() {
+    var fase = FASES[estado.faseIdx];
     salvar();
     var pct = desempenhoFase(fase.id);
     var passou = pct >= estado.criterio;
@@ -292,6 +490,7 @@
 
     limparTela();
     var botoes = [];
+    botoes.push(el('button', { class: 'btn btn-ghost', onclick: entrarRevisao }, ['⬅️ Rever minhas respostas']));
     if (passou) {
       botoes.push(el('button', { class: 'btn btn-primario', onclick: proximaFase }, [
         ehUltima ? '🏁 Ver encerramento' : '➡️ Ir para a próxima fase',
@@ -304,7 +503,7 @@
     }
 
     var card = el('div', { class: 'card centralizado' }, [
-      el('div', { class: 'emoji-grande' }, [passou ? '🌟' : '💪']),
+      el('div', { class: 'emoji-grande' + (passou ? ' celebrar' : '') }, [passou ? '🌟' : '💪']),
       el('h1', null, ['Fase ' + fase.id + ' — ' + fase.titulo]),
       el('div', { class: 'medidor' }, [
         el('div', { class: 'medidor-num' + (passou ? ' ok' : ' baixo') }, [pct + '%']),
@@ -323,46 +522,51 @@
   function refazerFase() {
     var fase = FASES[estado.faseIdx];
     questoesDaFase(fase.id).forEach(function (q) { delete estado.registros[q.id]; });
+    estado.subtela = 'intro';
     estado.questaoIdx = 0;
     estado.tentativas = 0;
-    renderQuestao();
+    estado.escolhasAtual = [];
+    salvar();
+    renderLive();
   }
 
   function proximaFase() {
     estado.faseIdx += 1;
+    estado.subtela = 'intro';
     estado.questaoIdx = 0;
     estado.tentativas = 0;
-    if (estado.faseIdx >= FASES.length) {
-      telaAutoavaliacao();
-    } else {
-      renderQuestao();
-    }
+    estado.escolhasAtual = [];
     salvar();
+    renderLive();
   }
 
   // ---- Encerramento (R5) ----------------------------------------------
   function telaAutoavaliacao() {
     limparTela();
+    var aa = estado.autoavaliacao || {};
     var card = el('div', { class: 'card' }, [
       el('div', { class: 'emoji-grande centro' }, ['📝']),
       el('h1', { class: 'centro' }, ['Autoavaliação']),
       el('p', { class: 'subtitulo centro' }, ['Antes de terminar, conte para a gente como foi a sua experiência.']),
-      campoEscolha('sentimento', 'Como você se sentiu fazendo o quiz?', ['😀 Diverti-me', '🙂 Foi tranquilo', '😐 Mais ou menos', '😕 Achei difícil']),
-      campoEscolha('dificuldade', 'Qual fase foi mais difícil para você?', FASES.map(function (f) { return f.icone + ' ' + f.titulo; }).concat(['Nenhuma'])),
-      campoEscolha('confianca', 'Você se sente mais confiante sobre Computação agora?', ['Sim, bastante!', 'Um pouco', 'Ainda não']),
+      campoEscolha('sentimento', 'Como você se sentiu fazendo o quiz?', ['😀 Diverti-me', '🙂 Foi tranquilo', '😐 Mais ou menos', '😕 Achei difícil'], aa.sentimento),
+      campoEscolha('dificuldade', 'Qual fase foi mais difícil para você?', FASES.map(function (f) { return f.icone + ' ' + f.titulo; }).concat(['Nenhuma']), aa.dificuldade),
+      campoEscolha('confianca', 'Você se sente mais confiante sobre Computação agora?', ['Sim, bastante!', 'Um pouco', 'Ainda não'], aa.confianca),
       el('div', { class: 'botoes-centro' }, [
+        el('button', { class: 'btn btn-ghost', onclick: entrarRevisao }, ['⬅️ Rever minhas respostas']),
         el('button', { class: 'btn btn-primario', onclick: salvarAutoavaliacao }, ['Concluir ➜']),
       ]),
     ]);
     app.appendChild(card);
   }
 
-  function campoEscolha(nome, pergunta, opcoes) {
+  function campoEscolha(nome, pergunta, opcoes, valorSalvo) {
     return el('fieldset', { class: 'campo-escolha' }, [
       el('legend', null, [pergunta]),
       el('div', { class: 'chips' }, opcoes.map(function (op, i) {
         var id = nome + '-' + i;
-        var input = el('input', { type: 'radio', name: nome, id: id, value: op });
+        var attrs = { type: 'radio', name: nome, id: id, value: op };
+        if (valorSalvo === op) attrs.checked = 'checked';
+        var input = el('input', attrs);
         var label = el('label', { for: id, class: 'chip' }, [op]);
         return el('span', { class: 'chip-wrap' }, [input, label]);
       })),
@@ -389,6 +593,7 @@
         el('li', null, ['🤝 Use a internet com respeito e gentileza com as outras pessoas.']),
       ]),
       el('div', { class: 'botoes-centro' }, [
+        el('button', { class: 'btn btn-ghost', onclick: telaAutoavaliacao }, ['⬅️ Voltar']),
         el('button', { class: 'btn btn-primario', onclick: telaRelatorio }, ['📊 Ver relatório final']),
       ]),
     ]);

@@ -15,8 +15,8 @@ O objeto está implementado como um site web estático (HTML, CSS e JavaScript, 
 
 - `index.html` — página principal do quiz;
 - `css/styles.css` — estilos e layout responsivo;
-- `js/data.js` — banco de questões, requisitos, fases e componentes;
-- `js/app.js` — lógica do quiz (fases, feedback, autoavaliação e relatório);
+- `js/data.js` — banco de questões, requisitos, fases (com as introduções explicativas) e componentes;
+- `js/app.js` — lógica do quiz (introdução das fases, questões, feedback, modo revisão "voltar", autoavaliação e relatório);
 - `modelo-instrucional(1).drawio` — modelo instrucional (statechart) que orienta a implementação.
 
 ## Público-alvo
@@ -155,6 +155,24 @@ Na primeira etapa, será construído o banco de questões, distribuído por tema
 Na segunda etapa, será estruturada a navegação do quiz, com organização em fases. O estudante iniciará por questões de reconhecimento e classificação, avançando posteriormente para associação funcional e situações-problema. Essa progressão permitirá acompanhar o desenvolvimento cognitivo de forma gradual.
 
 Na terceira etapa, será implementado o sistema de feedback e relatório. Ao final da atividade, o professor poderá visualizar em quais requisitos o estudante apresentou melhor desempenho e em quais ainda necessita de reforço. Dessa maneira, o objeto de aprendizagem não funcionará apenas como instrumento de acerto e erro, mas também como recurso diagnóstico e formativo.
+
+## Histórico de iterações
+
+### Iteração 1 — proposta pedagógica
+
+Definição do público-alvo, dos requisitos de aprendizagem (R1 a R5) com base na taxonomia de Bloom, do alinhamento com a BNCC de Computação, dos mapas conceituais e do modelo instrucional (statechart).
+
+### Iteração 2 — implementação do quiz
+
+Implementação do objeto como site web estático (HTML, CSS e JavaScript, sem dependências), publicado no GitHub Pages: 4 fases progressivas com feedback em até 2 tentativas, "explorar componentes", pausar/retomar, autoavaliação, mensagem de uso seguro e relatório do professor por requisito.
+
+### Iteração 3 — navegação e clareza das fases (release)
+
+Iteração orientada pelo retorno de uso, resolvendo as issues abertas e refinando o objeto:
+
+- **Tela de introdução em cada fase** ([issue #5](https://github.com/MonoHenry/objetos-de-aprendizagem/issues/5)): antes de começar cada uma das 4 fases, uma tela explica o tipo de questão ("Agora será classificação..."), mostra um exemplo resolvido e lembra a regra das 2 tentativas, para que o estudante saiba sempre o que vai acontecer.
+- **Voltar às páginas anteriores** ([issue #6](https://github.com/MonoHenry/objetos-de-aprendizagem/issues/6)): botão "Voltar" com modo revisão, que permite ao estudante rever as introduções e as questões já respondidas (com a resposta correta, as escolhas feitas e o comentário), sem alterar a pontuação registrada. Todas as telas passam a ter um caminho de volta.
+- **Correções e melhorias**: retomar a atividade após a fase 4 não perde mais o ponto de parada; a autoavaliação preserva as respostas ao voltar; barra de progresso visual dentro da fase; feedback anunciado por leitores de tela (aria-live) e foco no botão de continuar; registro das alternativas escolhidas para enriquecer a revisão; compatibilidade com progressos salvos nas iterações anteriores.
 
 ## Critérios de avaliação e pontuação
 
