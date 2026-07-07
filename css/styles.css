@@ -100,6 +100,9 @@ h2 { font-size: 1.25rem; }
 /* ---- Modo revisão (voltar às páginas anteriores) ---- */
 .banner-revisao { background: var(--amarelo-claro); border: 2px dashed var(--amarelo); border-radius: 12px; padding: 10px 16px; font-weight: 600; text-align: center; }
 .resultado-revisao { margin-top: 18px; padding: 16px 18px; border-radius: 12px; background: var(--cinza-claro); border-left: 5px solid var(--azul); }
+.atalhos-fases { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.atalhos-rotulo { color: var(--cinza); font-weight: 600; font-size: 0.9rem; }
+.btn-mini { padding: 6px 12px; font-size: 0.85rem; }
 
 /* ---- Questão ---- */
 .progresso-fase { color: var(--cinza); font-size: 0.9rem; font-weight: 600; }

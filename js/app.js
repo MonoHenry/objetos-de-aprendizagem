@@ -159,10 +159,27 @@
   }
 
   function navRevisao() {
-    return el('div', { class: 'botoes-centro' }, [
-      revisaoPos > 0 ? el('button', { class: 'btn btn-ghost', onclick: revisaoAnterior }, ['⬅️ Anterior']) : null,
-      el('button', { class: 'btn btn-ghost', onclick: revisaoProxima }, ['Próxima ➡️']),
-      el('button', { class: 'btn btn-primario', onclick: renderLive }, ['▶️ Continuar o quiz']),
+    // Atalhos para ir direto a uma fase já resolvida (consulta rápida),
+    // sem precisar passar página por página.
+    var pags = paginasAnteriores();
+    var intros = [];
+    pags.forEach(function (p, i) { if (p.tipo === 'intro') intros.push({ pos: i, faseIdx: p.faseIdx }); });
+    var atalhos = intros.length > 1 ? el('div', { class: 'atalhos-fases' }, [
+      el('span', { class: 'atalhos-rotulo' }, ['Ir direto para: ']),
+    ].concat(intros.map(function (it) {
+      var f = FASES[it.faseIdx];
+      return el('button', {
+        class: 'btn btn-ghost btn-mini',
+        onclick: function () { revisaoPos = it.pos; renderRevisao(); },
+      }, [f.icone + ' Fase ' + f.id]);
+    }))) : null;
+    return el('div', null, [
+      atalhos,
+      el('div', { class: 'botoes-centro' }, [
+        revisaoPos > 0 ? el('button', { class: 'btn btn-ghost', onclick: revisaoAnterior }, ['⬅️ Anterior']) : null,
+        el('button', { class: 'btn btn-ghost', onclick: revisaoProxima }, ['Próxima ➡️']),
+        el('button', { class: 'btn btn-primario', onclick: renderLive }, ['▶️ Continuar o quiz']),
+      ]),
     ]);
   }
 
@@ -654,6 +671,7 @@
       r5,
       el('p', { class: 'nota-relatorio' }, ['Critério adotado: ' + estado.criterio + '% · Apoio à avaliação diagnóstica e formativa.']),
       el('div', { class: 'botoes-centro nao-imprimir' }, [
+        el('button', { class: 'btn btn-ghost', onclick: entrarRevisao }, ['⬅️ Rever fases e questões']),
         el('button', { class: 'btn btn-secundario', onclick: function () { window.print(); } }, ['🖨️ Imprimir / salvar PDF']),
         el('button', { class: 'btn btn-ghost', onclick: reiniciar }, ['🔄 Recomeçar o quiz']),
       ]),
