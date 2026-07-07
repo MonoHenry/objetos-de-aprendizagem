@@ -674,6 +674,10 @@
   }
 
   // ---- Explorar componentes (consulta livre; não pontua) ---------------
+  // Painel lateral (não é mais um modal): fica aberto ao lado do quiz, para
+  // que o estudante consulte os componentes ENQUANTO resolve a questão,
+  // como sugere o modelo instrucional. Ao selecionar um componente, o
+  // painel mostra a explicação detalhada dele.
 
   // Figura do componente: usa o SVG desenhado quando não existe emoji fiel
   // ao item (pen drive, roteador e HD).
@@ -683,32 +687,54 @@
   }
 
   function abrirExplorar() {
-    var fundo = el('div', { class: 'modal-fundo', onclick: function (e) { if (e.target === fundo) fecharExplorar(); } });
-    var grade = el('div', { class: 'grade-componentes' }, COMPONENTES.map(function (c) {
-      return el('div', { class: 'componente' }, [
+    if (document.getElementById('painel-explorar')) { fecharExplorar(); return; }
+    var painel = el('aside', { class: 'painel-explorar', id: 'painel-explorar', 'aria-label': 'Explorar componentes' });
+    document.body.appendChild(painel);
+    document.body.classList.add('explorar-aberto');
+    renderListaComponentes(painel);
+  }
+
+  function renderListaComponentes(painel) {
+    painel.innerHTML = '';
+    painel.appendChild(el('div', { class: 'painel-topo' }, [
+      el('h2', null, ['🧭 Explorar componentes']),
+      el('button', { class: 'btn btn-ghost', onclick: fecharExplorar }, ['✕ Fechar']),
+    ]));
+    painel.appendChild(el('p', { class: 'painel-dica' }, [
+      'Toque em um componente para ver a explicação completa. O painel pode ficar aberto enquanto você responde às questões — isto não altera a sua pontuação.',
+    ]));
+    painel.appendChild(el('div', { class: 'grade-componentes' }, COMPONENTES.map(function (c) {
+      return el('button', {
+        class: 'componente',
+        onclick: function () { renderDetalheComponente(painel, c); },
+      }, [
         iconeComponente(c),
         el('div', { class: 'componente-nome' }, [c.nome]),
         el('div', { class: 'componente-tipo' }, [c.tipo]),
-        el('div', { class: 'componente-funcao' }, [c.funcao]),
-        el('a', { class: 'componente-link', href: c.wiki, target: '_blank', rel: 'noopener' }, ['🔗 Ver na Wikipédia']),
       ]);
-    }));
-    var modal = el('div', { class: 'modal' }, [
-      el('div', { class: 'modal-topo' }, [
-        el('h2', null, ['🧭 Explorar componentes']),
-        el('button', { class: 'btn btn-ghost', onclick: fecharExplorar }, ['✕ Fechar']),
-      ]),
-      el('p', { class: 'modal-dica' }, ['Consulte os componentes quando quiser. Isto não altera a sua pontuação.']),
-      grade,
-    ]);
-    fundo.id = 'modal-explorar';
-    fundo.appendChild(modal);
-    document.body.appendChild(fundo);
+    })));
+  }
+
+  function renderDetalheComponente(painel, c) {
+    painel.innerHTML = '';
+    painel.appendChild(el('div', { class: 'painel-topo' }, [
+      el('button', { class: 'btn btn-ghost', onclick: function () { renderListaComponentes(painel); } }, ['⬅️ Todos']),
+      el('button', { class: 'btn btn-ghost', onclick: fecharExplorar }, ['✕ Fechar']),
+    ]));
+    painel.appendChild(el('div', { class: 'detalhe-componente' }, [
+      iconeComponente(c),
+      el('h2', null, [c.nome]),
+      el('div', { class: 'componente-tipo' }, [c.tipo]),
+      el('p', { class: 'detalhe-funcao' }, [el('strong', null, ['O que faz: ']), c.funcao]),
+      el('p', { class: 'detalhe-texto' }, [c.detalhe]),
+      el('a', { class: 'componente-link', href: c.wiki, target: '_blank', rel: 'noopener' }, ['🔗 Ler mais na Wikipédia']),
+    ]));
   }
 
   function fecharExplorar() {
-    var m = document.getElementById('modal-explorar');
+    var m = document.getElementById('painel-explorar');
     if (m) m.remove();
+    document.body.classList.remove('explorar-aberto');
   }
 
   // ---- Inicialização ---------------------------------------------------

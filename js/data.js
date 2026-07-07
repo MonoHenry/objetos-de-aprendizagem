@@ -220,30 +220,44 @@ const SVG_ROTEADOR = '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor"
 const SVG_HD = '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="5" width="32" height="38" rx="4"/><circle cx="24" cy="19" r="8.5"/><circle cx="24" cy="19" r="1.6" fill="currentColor" stroke="none"/><line x1="24" y1="19" x2="30" y2="13.5"/><line x1="14" y1="37" x2="22" y2="37"/></svg>';
 
 // Componentes disponíveis em "Explorar componentes" (consulta livre, não pontua).
-// "wiki" aponta para o artigo do item na Wikipédia em português.
+// "detalhe" é a explicação completa mostrada ao selecionar o componente
+// (conforme o modelo instrucional); "wiki" aponta para o artigo do item na
+// Wikipédia em português.
 const COMPONENTES = [
   { nome: 'Processador', icone: '🧠', tipo: 'Hardware', funcao: 'Processa as informações; é o "cérebro" do computador.',
+    detalhe: 'O processador (também chamado de CPU) é uma peça pequena, mas muito poderosa: ele faz todos os cálculos e executa as instruções dos programas. Quanto mais rápido o processador, mais rápido o computador trabalha. Ele esquenta tanto que precisa de um pequeno ventilador (cooler) para esfriar!',
     wiki: 'https://pt.wikipedia.org/wiki/Unidade_central_de_processamento' },
   { nome: 'Teclado', icone: '⌨️', tipo: 'Hardware · entrada', funcao: 'Permite digitar letras, números e comandos.',
+    detalhe: 'Cada tecla que você aperta envia um código para o computador, que o transforma na letra ou no comando correspondente. Além das letras e dos números, há teclas especiais, como Enter e Espaço, que dão ordens ao computador. No celular existe o teclado virtual, que aparece na tela — esse é software!',
     wiki: 'https://pt.wikipedia.org/wiki/Teclado_(inform%C3%A1tica)' },
   { nome: 'Mouse', icone: '🖱️', tipo: 'Hardware · entrada', funcao: 'Move o cursor e seleciona itens com cliques.',
+    detalhe: 'O mouse percebe o movimento da sua mão (hoje quase sempre com uma luzinha por baixo) e move o cursor na tela. Com os botões você escolhe, abre e arrasta itens; com a rodinha, sobe e desce nas páginas. Nos notebooks, o touchpad faz o mesmo papel.',
     wiki: 'https://pt.wikipedia.org/wiki/Mouse' },
   { nome: 'Monitor', icone: '🖥️', tipo: 'Hardware · saída', funcao: 'Mostra as imagens e os textos na tela.',
+    detalhe: 'O monitor é formado por milhares de pontinhos de luz chamados pixels. Juntos, eles formam as imagens, os textos e os vídeos que você vê. É um dispositivo de saída: mostra para você o resultado do que o computador está fazendo.',
     wiki: 'https://pt.wikipedia.org/wiki/Monitor_de_v%C3%ADdeo' },
   { nome: 'Caixa de som', icone: '🔊', tipo: 'Hardware · saída', funcao: 'Reproduz o som para você ouvir.',
+    detalhe: 'A caixa de som transforma os sinais elétricos do computador em sons que podemos ouvir: músicas, vozes e os sons dos jogos. Os fones de ouvido fazem o mesmo trabalho, só que pertinho da orelha. É um dispositivo de saída de áudio.',
     wiki: 'https://pt.wikipedia.org/wiki/Alto-falante' },
   { nome: 'Pen drive', svg: SVG_PENDRIVE, tipo: 'Hardware · armazenamento', funcao: 'Guarda e transporta arquivos.',
+    detalhe: 'O pen drive guarda arquivos em uma memória especial que não se apaga quando ele é desconectado. Ele entra na portinha USB do computador, e por isso é fácil levar trabalhos, fotos e vídeos de um lugar para outro. É pequeno, mas pode guardar milhares de fotos!',
     wiki: 'https://pt.wikipedia.org/wiki/Pen_drive' },
   { nome: 'HD', svg: SVG_HD, tipo: 'Hardware · armazenamento', funcao: 'Armazena os arquivos dentro do computador.',
+    detalhe: 'O HD (disco rígido) é a "memória permanente" do computador: guarda o sistema, os programas e os seus arquivos mesmo com o computador desligado. Dentro dele há discos que giram bem rápido enquanto uma agulha lê e grava os dados. Hoje também existe o SSD, que faz o mesmo trabalho sem peças girando — por isso é mais rápido e silencioso.',
     wiki: 'https://pt.wikipedia.org/wiki/Disco_r%C3%ADgido' },
   { nome: 'Roteador', svg: SVG_ROTEADOR, tipo: 'Hardware · rede', funcao: 'Conecta os dispositivos à internet.',
+    detalhe: 'O roteador recebe a internet que chega à sua casa e a distribui para todos os aparelhos, por cabo ou pelo Wi-Fi (sem fio). É ele quem escolhe o caminho (a "rota") das informações entre os seus aparelhos e a internet. As luzinhas piscando mostram que os dados estão passando por ele.',
     wiki: 'https://pt.wikipedia.org/wiki/Roteador' },
   { nome: 'Sistema operacional', icone: '⚙️', tipo: 'Software', funcao: 'Controla o hardware e organiza os programas.',
+    detalhe: 'O sistema operacional é o programa mais importante: sem ele, o computador nem consegue funcionar. Ele controla o hardware, organiza os arquivos e permite que os outros programas rodem. Windows, Linux, Android e iOS são exemplos de sistemas operacionais.',
     wiki: 'https://pt.wikipedia.org/wiki/Sistema_operacional' },
   { nome: 'Navegador', icone: '🌐', tipo: 'Software', funcao: 'Acessa a internet e abre os sites.',
+    detalhe: 'O navegador busca as páginas da internet e as mostra na sua tela. É com ele que você pesquisa, assiste a vídeos e visita sites. Chrome, Firefox, Safari e Edge são exemplos de navegadores.',
     wiki: 'https://pt.wikipedia.org/wiki/Navegador_web' },
   { nome: 'Aplicativo', icone: '📱', tipo: 'Software', funcao: 'Programa para uma tarefa específica (mensagens, jogos, etc.).',
+    detalhe: 'Aplicativo (ou "app") é um programa feito para uma tarefa específica: conversar, jogar, desenhar, estudar... Você instala os aplicativos pela loja do celular ou do computador. Cada ícone na tela do seu celular é um aplicativo diferente!',
     wiki: 'https://pt.wikipedia.org/wiki/Aplicativo_m%C3%B3vel' },
   { nome: 'Antivírus', icone: '🛡️', tipo: 'Software', funcao: 'Protege o computador contra vírus e ameaças.',
+    detalhe: 'O antivírus fica vigiando o computador o tempo todo, procurando programas malvados (os vírus) que tentam roubar dados ou estragar arquivos. Quando encontra algo suspeito, ele avisa e bloqueia. Mesmo com antivírus, é importante não clicar em links estranhos!',
     wiki: 'https://pt.wikipedia.org/wiki/Antiv%C3%ADrus' },
 ];
