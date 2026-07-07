@@ -15,7 +15,7 @@ O objeto está implementado como um site web estático (HTML, CSS e JavaScript, 
 
 - `index.html` — página principal do quiz;
 - `css/styles.css` — estilos e layout responsivo;
-- `js/data.js` — banco de questões, requisitos, fases (com as introduções explicativas) e componentes;
+- `js/data.js` — banco de questões, requisitos, fases (com as introduções explicativas) e componentes (com explicação detalhada e link para a Wikipédia);
 - `js/app.js` — lógica do quiz (introdução das fases, questões, feedback, modo revisão "voltar", autoavaliação e relatório);
 - `modelo-instrucional(1).drawio` — modelo instrucional (statechart) que orienta a implementação.
 
@@ -172,6 +172,10 @@ Iteração orientada pelo retorno de uso, resolvendo as issues abertas e refinan
 
 - **Tela de introdução em cada fase** ([issue #5](https://github.com/MonoHenry/objetos-de-aprendizagem/issues/5)): antes de começar cada uma das 4 fases, uma tela explica o tipo de questão ("Agora será classificação..."), mostra um exemplo resolvido e lembra a regra das 2 tentativas, para que o estudante saiba sempre o que vai acontecer.
 - **Voltar às páginas anteriores** ([issue #6](https://github.com/MonoHenry/objetos-de-aprendizagem/issues/6)): botão "Voltar" com modo revisão, que permite ao estudante rever as introduções e as questões já respondidas (com a resposta correta, as escolhas feitas e o comentário), sem alterar a pontuação registrada. Todas as telas passam a ter um caminho de volta.
+- **Dicas de software com foco no aspecto não físico** ([issue #7](https://github.com/MonoHenry/objetos-de-aprendizagem/issues/7)): quando o estudante marca "Hardware" para um item que é software, as dicas e os comentários agora lembram que software não é uma peça física que dá para tocar — mantendo a explicação do que cada item faz.
+- **Figuras fiéis e links no explorar componentes** ([issue #8](https://github.com/MonoHenry/objetos-de-aprendizagem/issues/8)): pen drive, HD e roteador ganharam figuras desenhadas (SVG) que correspondem ao item, e todos os componentes têm link para o artigo correspondente na Wikipédia.
+- **Retorno a fases já resolvidas** ([issue #9](https://github.com/MonoHenry/objetos-de-aprendizagem/issues/9)): o modo revisão ganhou atalhos para ir direto a qualquer fase concluída, e o relatório final passou a ter o botão "Rever fases e questões", permitindo a consulta mesmo depois de terminar o quiz.
+- **Explorar componentes conforme o modelo instrucional** ([issue #10](https://github.com/MonoHenry/objetos-de-aprendizagem/issues/10)): o explorador deixou de ser um modal que cobria a tela e virou um painel lateral que fica aberto enquanto o estudante responde às questões (uso concomitante); selecionar um componente mostra a explicação detalhada dele.
 - **Correções e melhorias**: retomar a atividade após a fase 4 não perde mais o ponto de parada; a autoavaliação preserva as respostas ao voltar; barra de progresso visual dentro da fase; feedback anunciado por leitores de tela (aria-live) e foco no botão de continuar; registro das alternativas escolhidas para enriquecer a revisão; compatibilidade com progressos salvos nas iterações anteriores.
 
 ## Critérios de avaliação e pontuação
