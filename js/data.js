@@ -72,8 +72,8 @@ const QUESTOES = [
     id: 'f1q2', fase: 1, req: 'R1', tipo: 'identificacao', icone: '🌐',
     enunciado: 'O navegador (como o Chrome) é hardware ou software?',
     opcoes: ['Hardware', 'Software'], correta: 1,
-    dica: 'O navegador abre os sites, mas não é uma peça física: você não consegue tocá-lo com a mão, ele funciona dentro do computador.',
-    comentario: 'O navegador é SOFTWARE: não é uma parte física que dá para tocar — ele funciona dentro do computador para acessar a internet.',
+    dica: 'Tente pegar o navegador com a mão... não dá! Você toca a tela e o mouse, mas o navegador é um programa que o computador executa para abrir os sites.',
+    comentario: 'O navegador é SOFTWARE: ninguém compra um navegador numa caixinha para parafusar no computador — ele é instalado e funciona lá dentro, abrindo os sites para você.',
   },
   {
     id: 'f1q3', fase: 1, req: 'R1', tipo: 'identificacao', icone: '🖥️',
@@ -86,8 +86,8 @@ const QUESTOES = [
     id: 'f1q4', fase: 1, req: 'R1', tipo: 'identificacao', icone: '🛡️',
     enunciado: 'O antivírus é hardware ou software?',
     opcoes: ['Hardware', 'Software'], correta: 1,
-    dica: 'O antivírus protege o computador contra vírus, mas não é algo físico: você não consegue pegá-lo na mão, ele funciona dentro do aparelho.',
-    comentario: 'O antivírus é SOFTWARE: não é uma peça física que dá para segurar — ele funciona dentro do computador, protegendo contra vírus.',
+    dica: 'Um guarda de verdade você vê e toca. O antivírus é um "guarda invisível": trabalha dentro do computador caçando vírus, sem ser uma peça.',
+    comentario: 'O antivírus é SOFTWARE: ele chega por download (não numa caixa com parafusos) e fica vigiando o computador por dentro para bloquear os vírus.',
   },
   {
     id: 'f1q5', fase: 1, req: 'R1', tipo: 'identificacao', icone: '🖱️',
@@ -100,8 +100,8 @@ const QUESTOES = [
     id: 'f1q6', fase: 1, req: 'R1', tipo: 'identificacao', icone: '💬',
     enunciado: 'Um aplicativo de mensagens é hardware ou software?',
     opcoes: ['Hardware', 'Software'], correta: 1,
-    dica: 'O aplicativo envia as mensagens, mas não é uma parte física: você toca a TELA do celular, e o aplicativo funciona dentro do aparelho.',
-    comentario: 'Um aplicativo é SOFTWARE: não é uma peça física do celular — ele funciona dentro do aparelho para enviar as mensagens.',
+    dica: 'Quando você baixa ou apaga um aplicativo, nenhuma peça entra ou sai do celular — ele continua igualzinho por fora. O que muda está por dentro!',
+    comentario: 'Um aplicativo é SOFTWARE: você o baixa da loja e ele passa a morar dentro do celular, enviando as suas mensagens. Se apagar, não fica buraco nenhum — porque o app não é uma peça física.',
   },
 
   // ---------- FASE 2 — Classificar (R2): categoria funcional ----------
