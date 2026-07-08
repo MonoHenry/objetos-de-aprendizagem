@@ -84,6 +84,9 @@ h2 { font-size: 1.25rem; }
 .passo { display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: var(--branco); border: 2px solid #d6dbdf; color: var(--cinza); font-size: 0.9rem; box-shadow: var(--sombra); }
 .passo.atual { border-color: var(--azul); color: var(--azul-escuro); font-weight: 700; }
 .passo.feito { background: var(--verde-claro); border-color: var(--verde); color: var(--verde); }
+button.passo { cursor: pointer; font-family: inherit; transition: transform 0.1s ease, border-color 0.15s ease; }
+button.passo:hover { border-color: var(--azul); transform: translateY(-2px); }
+button.passo:focus-visible { outline: 3px solid var(--amarelo); outline-offset: 2px; }
 .passo-icone { font-size: 1.1rem; }
 .acoes { display: flex; gap: 8px; flex-wrap: wrap; }
 .acoes .btn { padding: 8px 14px; font-size: 0.9rem; }

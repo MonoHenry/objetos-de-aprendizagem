@@ -133,6 +133,19 @@
     renderRevisao();
   }
 
+  // Entra na revisão direto na introdução de uma fase já resolvida
+  // (usado pelos símbolos das fases na barra superior e pelos atalhos).
+  function irParaRevisaoDaFase(faseIdx) {
+    var pags = paginasAnteriores();
+    for (var i = 0; i < pags.length; i++) {
+      if (pags[i].tipo === 'intro' && pags[i].faseIdx === faseIdx) {
+        revisaoPos = i;
+        renderRevisao();
+        return;
+      }
+    }
+  }
+
   function renderRevisao() {
     var pags = paginasAnteriores();
     if (revisaoPos == null || revisaoPos < 0 || revisaoPos >= pags.length) { renderLive(); return; }
@@ -188,10 +201,19 @@
     var fase = FASES[estado.faseIdx];
     var passos = el('div', { class: 'passos' }, FASES.map(function (f, i) {
       var cls = 'passo' + (i < estado.faseIdx ? ' feito' : '') + (i === estado.faseIdx ? ' atual' : '');
-      return el('div', { class: cls, title: 'Fase ' + f.id + ' — ' + f.titulo }, [
+      var conteudo = [
         el('span', { class: 'passo-icone' }, [f.icone]),
         el('span', { class: 'passo-nome' }, [f.titulo]),
-      ]);
+      ];
+      // Fase já resolvida: o símbolo vira um botão que abre a revisão dela.
+      if (i < estado.faseIdx) {
+        return el('button', {
+          class: cls,
+          title: 'Rever a Fase ' + f.id + ' — ' + f.titulo,
+          onclick: function () { irParaRevisaoDaFase(i); },
+        }, conteudo);
+      }
+      return el('div', { class: cls, title: 'Fase ' + f.id + ' — ' + f.titulo }, conteudo);
     }));
     var temAnteriores = paginasAnteriores().length > 0;
     var acoes = el('div', { class: 'acoes' }, [
