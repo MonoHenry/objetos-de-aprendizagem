@@ -49,8 +49,10 @@ const FASES = [
 
 // Figuras desenhadas (SVG) para os itens que não têm emoji fiel:
 // o emoji de disquete não é um pen drive, o de barras de sinal não é um
-// roteador, o de minidisc não é um HD e o de trackball não é um touchscreen.
+// roteador, o de minidisc não é um HD, o de trackball não é um touchscreen
+// e o de cérebro não é um processador (chip).
 // Usadas tanto nas questões quanto no "Explorar componentes".
+const SVG_PROCESSADOR = '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="12" y="12" width="24" height="24" rx="3"/><rect x="19" y="19" width="10" height="10"/><line x1="18" y1="12" x2="18" y2="6"/><line x1="24" y1="12" x2="24" y2="6"/><line x1="30" y1="12" x2="30" y2="6"/><line x1="18" y1="36" x2="18" y2="42"/><line x1="24" y1="36" x2="24" y2="42"/><line x1="30" y1="36" x2="30" y2="42"/><line x1="12" y1="18" x2="6" y2="18"/><line x1="12" y1="24" x2="6" y2="24"/><line x1="12" y1="30" x2="6" y2="30"/><line x1="36" y1="18" x2="42" y2="18"/><line x1="36" y1="24" x2="42" y2="24"/><line x1="36" y1="30" x2="42" y2="30"/></svg>';
 const SVG_PENDRIVE = '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="15" width="27" height="18" rx="5"/><rect x="30" y="19" width="14" height="10"/><line x1="34" y1="21.8" x2="39" y2="21.8"/><line x1="34" y1="26.2" x2="39" y2="26.2"/></svg>';
 const SVG_ROTEADOR = '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="27" width="40" height="14" rx="4"/><line x1="14" y1="27" x2="14" y2="11"/><line x1="34" y1="27" x2="34" y2="11"/><circle cx="14" cy="9" r="1.8" fill="currentColor" stroke="none"/><circle cx="34" cy="9" r="1.8" fill="currentColor" stroke="none"/><circle cx="12" cy="34" r="1.7" fill="currentColor" stroke="none"/><circle cx="19" cy="34" r="1.7" fill="currentColor" stroke="none"/><circle cx="26" cy="34" r="1.7" fill="currentColor" stroke="none"/></svg>';
 const SVG_HD = '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="5" width="32" height="38" rx="4"/><circle cx="24" cy="19" r="8.5"/><circle cx="24" cy="19" r="1.6" fill="currentColor" stroke="none"/><line x1="24" y1="19" x2="30" y2="13.5"/><line x1="14" y1="37" x2="22" y2="37"/></svg>';
@@ -148,7 +150,7 @@ const QUESTOES = [
 
   // ---------- FASE 3 — Relacionar (R3): componente e função ----------
   {
-    id: 'f3q1', fase: 3, req: 'R3', tipo: 'associacao', icone: '🧠',
+    id: 'f3q1', fase: 3, req: 'R3', tipo: 'associacao', svg: SVG_PROCESSADOR,
     enunciado: 'Qual é a função principal do processador?',
     opcoes: ['Guardar arquivos', 'Processar as informações', 'Mostrar imagens', 'Conectar à internet'], correta: 1,
     dica: 'Ele é considerado o "cérebro" do computador.',
@@ -226,7 +228,7 @@ const QUESTOES = [
 // (conforme o modelo instrucional); "wiki" aponta para o artigo do item na
 // Wikipédia em português.
 const COMPONENTES = [
-  { nome: 'Processador', icone: '🧠', tipo: 'Hardware', funcao: 'Processa as informações; é o "cérebro" do computador.',
+  { nome: 'Processador', svg: SVG_PROCESSADOR, tipo: 'Hardware', funcao: 'Processa as informações; é o "cérebro" do computador.',
     detalhe: 'O processador (também chamado de CPU) é uma peça pequena, mas muito poderosa: ele faz todos os cálculos e executa as instruções dos programas. Quanto mais rápido o processador, mais rápido o computador trabalha. Ele esquenta tanto que precisa de um pequeno ventilador (cooler) para esfriar!',
     wiki: 'https://pt.wikipedia.org/wiki/Unidade_central_de_processamento' },
   { nome: 'Teclado', icone: '⌨️', tipo: 'Hardware · entrada', funcao: 'Permite digitar letras, números e comandos.',

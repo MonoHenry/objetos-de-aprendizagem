@@ -203,9 +203,10 @@ h2 { font-size: 1.25rem; }
 .detalhe-funcao { text-align: left; margin: 12px 0 8px; }
 .detalhe-texto { text-align: left; background: var(--azul-claro); border-radius: 12px; padding: 14px 16px; margin: 0 0 12px; }
 
-/* Em telas largas, o conteúdo abre espaço para o painel (uso concomitante) */
+/* Em telas largas, o conteúdo abre espaço para o painel (uso concomitante)
+   e fica centralizado no espaço restante. */
 @media (min-width: 900px) {
-  body.explorar-aberto #app { margin-right: 392px; }
+  body.explorar-aberto { padding-right: 392px; }
 }
 /* Em telas pequenas, o painel vira uma "gaveta" embaixo, e a questão continua visível em cima */
 @media (max-width: 899.98px) {
